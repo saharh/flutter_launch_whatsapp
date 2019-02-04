@@ -1,19 +1,18 @@
 package com.example.flutterlaunch
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import android.content.pm.PackageManager
-import android.net.Uri
 import java.net.URLEncoder
 
 
-class FlutterLaunchPlugin(val mRegistrar: Registrar): MethodCallHandler {
+class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
 
     companion object {
         @JvmStatic
@@ -28,16 +27,24 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar): MethodCallHandler {
             val context: Context = mRegistrar.context()
             val pm: PackageManager = context.packageManager
 
-            if (call.method.equals("launchWathsApp")) {
+            if (call.method.equals("launchApp")) {
 
+                val app: String? = call.argument("app")
                 val phone: String? = call.argument("phone")
                 val message: String? = call.argument("message")
 
-                val url: String = "https://api.whatsapp.com/send?phone=$phone&text=${URLEncoder.encode(message, "UTF-8")}"
-
-                if (appInstalledOrNot("com.whatsapp")) {
-                    val intent: Intent = Intent(Intent.ACTION_VIEW)
-                    intent.setPackage("com.whatsapp")
+                val url = "https://api.whatsapp.com/send?phone=$phone&text=${URLEncoder.encode(message, "UTF-8")}"
+                val packageName: String
+                if (app == "whatsapp") {
+                    packageName = "com.whatsapp"
+                } else if (app == "whatsapp_business") {
+                    packageName = "com.whatsapp.w4b"
+                } else {
+                    throw Exception("Unsupported app: $app")
+                }
+                if (appInstalledOrNot(packageName)) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setPackage(packageName)
                     intent.setData(Uri.parse(url))
 
                     if (intent.resolveActivity(pm) != null) {
@@ -49,9 +56,10 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar): MethodCallHandler {
             if (call.method.equals("hasApp")) {
                 val app: String? = call.argument("name");
 
-                when(app) {
+                when (app) {
                     "facebook" -> result.success(appInstalledOrNot("com.facebook.katana"))
                     "whatsapp" -> result.success(appInstalledOrNot("com.whatsapp"))
+                    "whatsapp_business" -> result.success(appInstalledOrNot("com.whatsapp.w4b"))
                     else -> {
                         result.error("App not found", "", null)
                     }
@@ -62,7 +70,7 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar): MethodCallHandler {
         }
     }
 
-    private fun appInstalledOrNot(uri: String) : Boolean {
+    private fun appInstalledOrNot(uri: String): Boolean {
         val context: Context = mRegistrar.context();
         val pm: PackageManager = context.packageManager
         var appInstalled: Boolean

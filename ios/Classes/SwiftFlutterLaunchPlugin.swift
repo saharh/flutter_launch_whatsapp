@@ -12,6 +12,7 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
 
     if ("launchWathsApp" == call.method) {
       let args = call.arguments as! Dictionary<String, String>
+      let app = args["app"]
       let phone = args["phone"]
       let message = args["message"]
 
@@ -32,6 +33,9 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
        switch name ?? "0" {
          case "whatsapp":
            result(schemeAvailable(scheme: "whatsapp://send"))
+           break
+         case "whatsapp":
+           result(schemeAvailable(scheme: "whatsapp_w4b://send")) // TODO when W4B for iOS is available, fix this
            break
          default:
              result(false)

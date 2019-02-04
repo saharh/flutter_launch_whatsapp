@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 
-
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -10,19 +9,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   initState() {
     super.initState();
   }
 
-  void whatsAppOpen() async {
-    bool whatsapp = await FlutterLaunch.hasApp(name: "whatsapp");
+  void whatsAppOpen(String app) async {
+    bool whatsapp = await FlutterLaunch.hasApp(name: app);
 
     if (whatsapp) {
-      await FlutterLaunch.launchWathsApp(phone: "5534992016545", message: "Hello");
+      await FlutterLaunch.launchApp(app: app, phone: "5534992016545", message: "Hello");
     } else {
-      print("Whatsapp não instalado");
+      print("$app not installed");
     }
   }
 
@@ -34,18 +32,36 @@ class _MyAppState extends State<MyApp> {
           title: new Text('Plugin example app'),
         ),
         body: Center(
-          child: FlatButton(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Whatsapp",)
-              ],
+            child: Column(
+          children: <Widget>[
+            FlatButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Whatsapp",
+                  )
+                ],
+              ),
+              onPressed: () {
+                whatsAppOpen(App.WHATSAPP);
+              },
             ),
-            onPressed: () {
-              whatsAppOpen();
-            },
-          )
-        ),
+            FlatButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Whatsapp Business",
+                  )
+                ],
+              ),
+              onPressed: () {
+                whatsAppOpen(App.WHATSAPP_BUSINESS);
+              },
+            ),
+          ],
+        )),
       ),
     );
   }
