@@ -34,7 +34,7 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
          case "whatsapp":
            result(schemeAvailable(scheme: "whatsapp://send"))
            break
-         case "whatsapp":
+         case "whatsapp_business":
            result(schemeAvailable(scheme: "whatsapp_w4b://send")) // TODO when W4B for iOS is available, fix this
            break
          default:
