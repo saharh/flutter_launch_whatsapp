@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.text.TextUtils
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -33,10 +32,8 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
                 val app: String? = call.argument("app")
                 val phone: String? = call.argument("phone")
                 val message: String? = call.argument("message")
-                var url : String? = null
-                if (!TextUtils.isEmpty(phone)) {
-                    url = "https://api.whatsapp.com/send?phone=$phone&text=${URLEncoder.encode(message, "UTF-8")}"
-                }
+
+                val url = "https://api.whatsapp.com/send?phone=$phone&text=${URLEncoder.encode(message, "UTF-8")}"
                 val packageName: String
                 if (app == "whatsapp") {
                     packageName = "com.whatsapp"
@@ -48,9 +45,7 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
                 if (appInstalledOrNot(packageName)) {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setPackage(packageName)
-                    if (url != null) {
-                        intent.setData(Uri.parse(url))
-                    }
+                    intent.setData(Uri.parse(url))
 
                     if (intent.resolveActivity(pm) != null) {
                         context.startActivity(intent)
