@@ -17,7 +17,12 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
             let message = args["message"]
             var urlString: String;
             if (app == "whatsapp") {
-                urlString = "whatsapp://send?phone=\(phone ?? "0")&message=\(message ?? "0")"
+                urlString = "whatsapp://"
+                if ((phone ?? "").isEmpty) {
+                    urlString += "app"
+                } else {
+                    urlString += "send?phone=\(phone ?? "0")&message=\(message ?? "0")"
+                }
             } else {
                 // unsupported
                 return
@@ -39,7 +44,7 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
                 result(schemeAvailable(scheme: "whatsapp://send"))
                 break
             case "whatsapp_business":
-                // result(schemeAvailable(scheme: "whatsapp_w4b://send")) // TODO when W4B for iOS is available, fix this
+                // result(schemeAvailable(scheme: "w4b://send")) // TODO when W4B for iOS is available, fix this
                 result(false)
                 break
             default:
