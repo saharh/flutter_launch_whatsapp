@@ -26,7 +26,7 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
         try {
-            val context: Context = mRegistrar.context()
+            val context: Context = mRegistrar.activity()
             val pm: PackageManager = context.packageManager
 
             if (call.method.equals("launchApp")) {
