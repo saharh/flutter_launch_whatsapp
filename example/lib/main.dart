@@ -15,9 +15,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void whatsAppOpen(String app) async {
-    bool whatsapp = await FlutterLaunch.hasApp(name: app);
-
-    if (whatsapp) {
+    bool available = await FlutterLaunch.hasApp(name: app);
+    debugPrint('App $app available: $available');
+    if (available) {
       await FlutterLaunch.launchApp(app: app, phone: "5534992016545", message: "Hello");
     } else {
       print("$app not installed");

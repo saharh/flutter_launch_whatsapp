@@ -44,6 +44,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>
+		<string>whatsapp-consumer</string>
+		<string>whatsapp-smb</string>
 	</array>
 </dict>
 </plist>

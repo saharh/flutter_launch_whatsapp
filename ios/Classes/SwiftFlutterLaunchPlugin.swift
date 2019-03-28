@@ -17,15 +17,17 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
             let message = args["message"]
             var urlString: String;
             if (app == "whatsapp") {
-                urlString = "whatsapp://"
-                if ((phone ?? "").isEmpty) {
-                    urlString += "app"
-                } else {
-                    urlString += "send?phone=\(phone ?? "0")&message=\(message ?? "0")"
-                }
+                urlString = "whatsapp-consumer://"
+            } else if (app == "whatsapp_business") {
+                urlString = "whatsapp-smb://"
             } else {
                 // unsupported
                 return
+            }
+            if ((phone ?? "").isEmpty) {
+                urlString += "app"
+            } else {
+                urlString += "send?phone=\(phone ?? "0")&message=\(message ?? "0")"
             }
             let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             let URL = NSURL(string: urlStringEncoded!)
@@ -41,9 +43,10 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
             
             switch name ?? "0" {
             case "whatsapp":
-                result(schemeAvailable(scheme: "whatsapp://send"))
+                result(schemeAvailable(scheme: "whatsapp-consumer://send"))
                 break
             case "whatsapp_business":
+                result(schemeAvailable(scheme: "whatsapp-smb://send"))
                 // result(schemeAvailable(scheme: "w4b://send")) // TODO when W4B for iOS is available, fix this
                 result(false)
                 break
