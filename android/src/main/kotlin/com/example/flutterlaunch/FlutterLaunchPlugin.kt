@@ -40,6 +40,8 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
                     packageName = "com.whatsapp"
                 } else if (app == "whatsapp_business") {
                     packageName = "com.whatsapp.w4b"
+                } else if (app == "wechat") {
+                    packageName = "com.tencent.mm"
                 } else {
                     throw Exception("Unsupported app: $app")
                 }
@@ -66,6 +68,7 @@ class FlutterLaunchPlugin(val mRegistrar: Registrar) : MethodCallHandler {
                     "facebook" -> result.success(appInstalledOrNot("com.facebook.katana"))
                     "whatsapp" -> result.success(appInstalledOrNot("com.whatsapp"))
                     "whatsapp_business" -> result.success(appInstalledOrNot("com.whatsapp.w4b"))
+                    "wechat" -> result.success(appInstalledOrNot("com.tencent.mm"))
                     else -> {
                         result.error("App not found", "", null)
                     }

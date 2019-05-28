@@ -20,6 +20,8 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
                 urlString = "whatsapp-consumer://"
             } else if (app == "whatsapp_business") {
                 urlString = "whatsapp-smb://"
+            } else if (app == "wechat") {
+                urlString = "weixin://"
             } else {
                 // unsupported
                 return
@@ -48,7 +50,10 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
             case "whatsapp_business":
                 result(schemeAvailable(scheme: "whatsapp-smb://send"))
                 // result(schemeAvailable(scheme: "w4b://send")) // TODO when W4B for iOS is available, fix this
-                result(false)
+                // result(false)
+                break
+            case "wechat":
+                result(schemeAvailable(scheme: "weixin://"))
                 break
             default:
                 result(false)

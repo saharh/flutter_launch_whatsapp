@@ -22,4 +22,5 @@ class FlutterLaunch {
 class App {
   static const String WHATSAPP = 'whatsapp';
   static const String WHATSAPP_BUSINESS = 'whatsapp_business';
+  static const String WECHAT = 'wechat';
 }
