@@ -21,7 +21,7 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
             } else if (app == "whatsapp_business") {
                 urlString = "whatsapp-smb://"
             } else if (app == "wechat") {
-                urlString = "weixin://"
+                urlString = "wechat://"
             } else {
                 // unsupported
                 return
@@ -53,7 +53,7 @@ public class SwiftFlutterLaunchPlugin: NSObject, FlutterPlugin {
                 // result(false)
                 break
             case "wechat":
-                result(schemeAvailable(scheme: "weixin://"))
+                result(schemeAvailable(scheme: "wechat://"))
                 break
             default:
                 result(false)
